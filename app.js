@@ -2,10 +2,15 @@
 
 const express = require("express");
 const app = express(); // creating an instance of Express application
-const port = 3333;
+
+// define routes
+// health check route
+
+// GET / method = GET path = /
 
 app.get("/", (req, res) => {
-  res.send("Welcome to Student Dashboard");
+  res.status(200).json({ data: "Service is running!" });
+  // res.send("Welcome to Student Dashboard");
 });
 
 app.get("/assignments", (req, res) => {
@@ -22,10 +27,6 @@ app.get("/students", (req, res) => {
 
 app.get("*", (req, res) => {
   res.send("404 - not found");
-});
-
-app.listen(port, () => {
-  console.log(`Listening on port, ${port}`);
 });
 
 module.exports = app;
