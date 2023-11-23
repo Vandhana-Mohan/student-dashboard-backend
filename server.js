@@ -1,8 +1,9 @@
 // import app, start up and listen to server
+require("dotenv").config();
 
 const app = require("./app");
 
-const port = 3333;
+const port = process.env.PORT;
 
 app.listen(port, () => {
   console.log(`Listening on port, ${port}`);
