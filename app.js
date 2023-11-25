@@ -1,9 +1,11 @@
 // app.js - define route handlers, and controllers
 
 const express = require("express");
+const cors = require("cors");
 const studentData = require("./studentData.json");
 const app = express(); // creating an instance of Express application
 
+app.use(cors());
 // define routes
 // health check route
 
