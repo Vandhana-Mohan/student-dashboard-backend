@@ -2,7 +2,7 @@
 
 const express = require("express");
 const cors = require("cors");
-const studentData = require("./studentData.json");
+const studentData = require("./data/studentData.json");
 const app = express(); // creating an instance of Express application
 
 app.use(cors());
@@ -15,23 +15,37 @@ app.get("/", (req, res) => {
   res.status(200).json({ data: "Service is running!" });
 });
 
-app.get("/assignments", (req, res) => {
-  res.send("Welcome to Assignments");
-});
-
-app.get("/grades", (req, res) => {
-  res.send("Welcome to Grades");
-});
-
-// GET /students
 app.get("/students", (req, res) => {
   try {
-    const { students } = studentData; // take the students array from student data json file
-    res.status(200).json({ data: students }); // return with success message and the array of students
+    // const { students } = studentData; // take the students array from student data json file
+    res.status(200).json({ students: studentData.students }); // return with success message and the array of students
   } catch (err) {
     res.status(500).json({ error: err.messagge });
   }
 });
+
+app.get("/students/:id", (req,res) => {
+  const {id} = req.params
+  const {students} = studentData
+
+
+  const student = students.find((student) => student.id === id)
+  if(student){
+    res.send({student})
+  } else {
+    res.send("No Student")
+  }
+})
+
+// GET /students
+// app.get("/students", (req, res) => {
+//   try {
+//     const { students } = studentData; // take the students array from student data json file
+//     res.status(200).json({ data: students }); // return with success message and the array of students
+//   } catch (err) {
+//     res.status(500).json({ error: err.messagge });
+//   }
+// }); do not delete
 
 // GET /students/:id
 
