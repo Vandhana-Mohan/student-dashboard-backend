@@ -4,8 +4,10 @@ const express = require("express");
 const cors = require("cors");
 const studentData = require("./data/studentData.json");
 const app = express(); // creating an instance of Express application
+const bodyParser = require("body-parser"); // npm install  --save body-parser
 
 app.use(cors());
+app.use(bodyParser.urlencoded({extended:true}))
 // define routes
 // health check route
 
@@ -24,25 +26,31 @@ app.get("/students", (req, res) => {
   }
 });
 
-app.get("/students/:id", (req,res) => {
-  const {id} = req.params
-  const {students} = studentData
-  const student = students.find((student) => student.id === id)
-  if(student){
-    res.send({student})
+app.get("/students/:id", (req, res) => {
+  const { id } = req.params;
+  const { students } = studentData;
+  const student = students.find((student) => student.id === id);
+  if (student) {
+    res.send({ student });
   } else {
-    res.send("No Student")
+    res.send("No Student");
   }
-})
+});
 
 app.post("/students", (req, res) => {
-  const student = req.query
+  const student = req.query;
 
-  const {students} = studentData
+  const { students } = studentData;
 
-  students.push(student)
+  students.push(student);
 
-})
+  console.log("POST received", req.body);
+});
+
+app.put("/students/:id", (req, res) => {
+  console.log("Put received");
+});
+
 // GET /students
 // app.get("/students", (req, res) => {
 //   try {
