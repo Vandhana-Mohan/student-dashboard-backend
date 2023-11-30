@@ -27,8 +27,6 @@ app.get("/students", (req, res) => {
 app.get("/students/:id", (req,res) => {
   const {id} = req.params
   const {students} = studentData
-
-
   const student = students.find((student) => student.id === id)
   if(student){
     res.send({student})
@@ -37,6 +35,14 @@ app.get("/students/:id", (req,res) => {
   }
 })
 
+app.post("/students", (req, res) => {
+  const student = req.query
+
+  const {students} = studentData
+
+  students.push(student)
+
+})
 // GET /students
 // app.get("/students", (req, res) => {
 //   try {
