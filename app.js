@@ -4,6 +4,13 @@ const express = require("express");
 const cors = require("cors");
 const studentData = require("./data/studentData.json");
 const app = express(); // creating an instance of Express application
+
+const pgp = require('pg-promise')();
+
+console.log(pgp)
+
+
+
 const bodyParser = require("body-parser"); // npm install  --save body-parser
 
 app.use(cors());
