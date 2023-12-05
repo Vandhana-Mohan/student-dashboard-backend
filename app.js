@@ -10,9 +10,6 @@ const pgp = require("pg-promise")();
 
 console.log("PGP", pgp);
 
-const db = pgp();
-db.query("CREATE TABLE IF NOT EXISTS Grades();");
-
 const bodyParser = require("body-parser"); // npm install  --save body-parser
 
 app.use(cors());
