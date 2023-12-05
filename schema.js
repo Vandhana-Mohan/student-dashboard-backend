@@ -2,10 +2,10 @@ console.log("Running schema file ...");
 
 const pgp = require("pg-promise")();
 const db = pgp({
-  // connect: '' // postgres://user-name:password@localhost/student_dashboard
+  connect: "postgres://pursuit:Buyenjoy20#@localhost:3333/student_dashboard",
 });
 
-console.log(db);
+console.log("DB", db);
 
 (async function () {
   await db.query(`DROP TABLE IF EXISTS grades`);
@@ -17,7 +17,7 @@ console.log(db);
         first_name varchar(255),
         last_name varchar(255),
         email varchar(255),
-        pic TEXT
+        pic TEXT,
         skill varchar(255),
         company varchar(255),
         city varchar(255)
@@ -35,5 +35,6 @@ console.log(db);
   await db.query(`CREATE INDEX grades_students_id ON grades(student_id)`); // we use index to fetch data faster
 
   console.log("schema run successfully");
-  exit(0); // exits connecttion and displays message successfully
+
+  //   exits(0); // exits connecttion and displays message successfully
 })();

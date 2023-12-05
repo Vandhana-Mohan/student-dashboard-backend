@@ -1,88 +1,26 @@
-// app.js - define route handlers, and controllers
+// app.js - to define route handlers, and controllers
 
 const express = require("express");
+const app = express(); // creating an instance of Express application
 const cors = require("cors");
 const studentData = require("./data/studentData.json");
-const app = express(); // creating an instance of Express application
 
-const pgp = require('pg-promise')();
+const studentsController = require("./Controllers/studentsController");
+const pgp = require("pg-promise")();
 
-console.log(pgp)
+console.log("PGP", pgp);
 
-
+const db = pgp();
+db.query("CREATE TABLE IF NOT EXISTS Grades();");
 
 const bodyParser = require("body-parser"); // npm install  --save body-parser
 
 app.use(cors());
-app.use(bodyParser.urlencoded({extended:true}))
-// define routes
-// health check route
-
-// GET / health check
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use("/students", studentsController);
 
 app.get("/", (req, res) => {
   res.status(200).json({ data: "Service is running!" });
-});
-
-app.get("/students", (req, res) => {
-  try {
-    // const { students } = studentData; // take the students array from student data json file
-    res.status(200).json({ students: studentData.students }); // return with success message and the array of students
-  } catch (err) {
-    res.status(500).json({ error: err.messagge });
-  }
-});
-
-app.get("/students/:id", (req, res) => {
-  const { id } = req.params;
-  const { students } = studentData;
-  const student = students.find((student) => student.id === id);
-  if (student) {
-    res.send({ student });
-  } else {
-    res.send("No Student");
-  }
-});
-
-app.post("/students", (req, res) => {
-  const student = req.query;
-
-  const { students } = studentData;
-
-  students.push(student);
-
-  console.log("POST received", req.body);
-});
-
-app.put("/students/:id", (req, res) => {
-  console.log("Put received");
-});
-
-// GET /students
-// app.get("/students", (req, res) => {
-//   try {
-//     const { students } = studentData; // take the students array from student data json file
-//     res.status(200).json({ data: students }); // return with success message and the array of students
-//   } catch (err) {
-//     res.status(500).json({ error: err.messagge });
-//   }
-// }); do not delete
-
-// GET /students/:id
-
-app.get("/students/:id", (req, res) => {
-  try {
-    const { id } = req.params;
-    const { students } = studentData;
-    const student = students.find((student) => student.id === id);
-    if (student) {
-      res.status(200).json({ data: student });
-    } else {
-      res.status(404).json({ error: `No student with id : ${id} is found.` });
-    }
-  } catch (err) {
-    res.status(500).json({ error: err.messagge });
-  }
 });
 
 app.get("*", (req, res) => {
