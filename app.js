@@ -9,13 +9,14 @@ const bodyParser = require("body-parser"); // npm install  --save body-parser
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use("/students", studentsController);
 
 // health check route
 
 app.get("/", (req, res) => {
   res.status(200).json({ data: "Service is running!" });
 });
+
+app.use("/students", studentsController);
 
 app.get("*", (req, res) => {
   res.send("404 - not found");

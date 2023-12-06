@@ -15,25 +15,40 @@ router.get("/students", (req, res) => {
 
 router.get("/students/:id", (req, res) => {
   const { id } = req.params;
-  db.result(`SELECT * FROM Students WHERE students.id = $1`, [id])
-    .then((allData) => {
+  db.result(`SELECT * FROM Students WHERE students.id = $1`, [id]).then(
+    (allData) => {
       res.send({ students: allData.rows });
-    })
+    }
+  );
 });
 
-
 router.post("/students", (req, res) => {
-  const student = req.query;
+  const { body } = req;
+  const { first_name, last_name, email, pic, skill, company, city } = body;
 
-  const { students } = studentData;
-
-  students.push(student);
+  db.result(
+    `INSERT INTO Students (first_name, last_name, email, pic, skill, company, city) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+    [first_name, last_name, email, pic, skill, company, city]
+  ).then((allData) => {
+    res.send({ students: allData.rows });
+  });
 
   console.log("POST received", req.body);
 });
 
 router.put("/students/:id", (req, res) => {
-  console.log("Put received");
+  const { body } = req;
+  const { id } = req.params;
+  const { first_name, last_name, email, pic, skill, company, city } = body;
+
+  db.result(
+    `UPDATE Students SET first_name=$1, last_name=$2, email=$3, pic=$4, skill=$5, company=$6, city=$7 WHERE id=$8`,
+    [first_name, last_name, email, pic, skill, company, city, id]
+  ).then((result) => {
+    res.send({ message: "Student updated successfully" });
+  });
+
+  console.log("PUT received", req.body);
 });
 
 // GET /students
@@ -62,4 +77,5 @@ router.get("/students/:id", (req, res) => {
     res.status(500).json({ error: err.messagge });
   }
 });
+
 module.exports = router;
