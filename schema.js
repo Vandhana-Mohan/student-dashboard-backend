@@ -1,5 +1,4 @@
 console.log("Running schema file ...");
-
 const pgp = require("pg-promise")();
 const db = pgp({
   connect: "postgres://pursuit:Buyenjoy20#@localhost:3333/student_dashboard",

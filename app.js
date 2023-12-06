@@ -4,12 +4,7 @@ const express = require("express");
 const app = express(); // creating an instance of Express application
 const cors = require("cors");
 const studentData = require("./data/studentData.json");
-
 const studentsController = require("./Controllers/studentsController");
-const pgp = require("pg-promise")();
-
-console.log("PGP", pgp);
-
 const bodyParser = require("body-parser"); // npm install  --save body-parser
 
 app.use(cors());
