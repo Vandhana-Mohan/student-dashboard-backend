@@ -4,8 +4,7 @@ console.log("Running seed file ...");
 
 const pgp = require("pg-promise")();
 const db = pgp({
-  connectionString:
-    "postgres://pursuit:Buyenjoy20#@localhost:3333/student_dashboard",
+  connect: "postgres://pursuit:Buyenjoy20#@localhost:3333/student_dashboard",
 });
 
 console.log("DB", db);

@@ -1,31 +1,26 @@
+// define routes
+
 const express = require("express");
 const router = express.Router();
-
-// define routes
-// health check route
-
-// GET / health check
+const pgp = require("pg-promise")();
+const db = pgp({
+  connect: "postgres://pursuit:Buyenjoy20#@localhost:3333/student_dashboard",
+});
 
 router.get("/students", (req, res) => {
-  // make this retrieve data from database instead of json  and make routes use the strudent controller
-  try {
-    // const { students } = studentData; // take the students array from student data json file
-    res.status(200).json({ students: studentData.students }); // return with success message and the array of students
-  } catch (err) {
-    res.status(500).json({ error: err.messagge });
-  }
+  db.result("SELECT * FROM Students").then((allData) => {
+    res.send({ students: allData.rows });
+  });
 });
 
 router.get("/students/:id", (req, res) => {
   const { id } = req.params;
-  const { students } = studentData;
-  const student = students.find((student) => student.id === id);
-  if (student) {
-    res.send({ student });
-  } else {
-    res.send("No Student");
-  }
+  db.result(`SELECT * FROM Students WHERE students.id = $1`, [id])
+    .then((allData) => {
+      res.send({ students: allData.rows });
+    })
 });
+
 
 router.post("/students", (req, res) => {
   const student = req.query;
